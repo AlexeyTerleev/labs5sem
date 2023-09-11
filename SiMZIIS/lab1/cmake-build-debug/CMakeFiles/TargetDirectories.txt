@@ -1,3 +1,0 @@
-/home/alexey_t/git/labs5sem/SiMZIIS/lab1/cmake-build-debug/CMakeFiles/lab1.dir
-/home/alexey_t/git/labs5sem/SiMZIIS/lab1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/alexey_t/git/labs5sem/SiMZIIS/lab1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
