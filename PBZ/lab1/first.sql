@@ -80,11 +80,11 @@ left join СТУДЕНЧЕСКАЯ_ГРУППА gr
 	on teacher_sub.КодовыйНомерГруппы = gr.КодовыйНомерГруппы
 where gr.Специальность = 'ЭВМ'
 
-/*  13   ??????????????????*/
-select КодовыйНомерПредмета
-	from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
+/*  13  */
+
+select КодовыйНомерПредмета from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
 group by КодовыйНомерПредмета
-having array_agg(КодовыйНомерГруппы) = select array_agg(КодовыйНомерГруппы) from СТУДЕНЧЕСКАЯ_ГРУППА)
+having count(*) in (select count(*) from ПРЕДМЕТ)
 
 /*  14   */
 
@@ -198,9 +198,43 @@ select distinct КодовыйНомерГруппы from ПРЕПОДАВАТЕ
 where КодовыйНомерПредмета in (select * from aim_sub_nums)
 
 /*  24   */
+with used_subjects as (
+	select КодовыйНомерПредмета from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
+	where КодовыйНомерГруппы in (
+		select КодовыйНомерГруппы from СТУДЕНЧЕСКАЯ_ГРУППА where НазваниеГруппы = 'АС-8'
+	) 
+), not_aim_groups as (
+	select distinct КодовыйНомерГруппы from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
+	where КодовыйНомерПредмета in (select * from used_subjects)
+)
 
-?
+select КодовыйНомерГруппы from СТУДЕНЧЕСКАЯ_ГРУППА
+except select КодовыйНомерГруппы from not_aim_groups
 
 /*  25   */
 
+with not_aim_subjects as (
+	select КодовыйНомерПредмета from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ 
+	where ЛичныйНомер = '430Л'
+), not_aim_groups as (
+	select distinct КодовыйНомерГруппы from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ 
+	where КодовыйНомерПредмета in (select * from not_aim_subjects)
+)
+
+select КодовыйНомерГруппы from СТУДЕНЧЕСКАЯ_ГРУППА
+except select КодовыйНомерГруппы from not_aim_groups
+
 /*  26   */
+
+with teachers as (
+	select distinct ЛичныйНомер from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
+	where КодовыйНомерГруппы in (select КодовыйНомерГруппы from СТУДЕНЧЕСКАЯ_ГРУППА where НазваниеГруппы = 'Э-15')
+), not_aim_teachers as (
+	select distinct ЛичныйНомер from ПРЕПОДАВАТЕЛЬ_ПРЕПОДАЕТ_ПРЕДМЕТЫ_В_ГРУППАХ
+	where КодовыйНомерПредмета = '12П'
+)
+
+select * from teachers
+except select * from not_aim_teachers
+
+

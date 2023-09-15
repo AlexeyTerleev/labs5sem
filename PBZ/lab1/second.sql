@@ -22,23 +22,17 @@ where Д = 'Д1' and d_count.s > avg_count.averege
 данную деталь. */
 
 with 
-    details as (
-        select Д from Детали_p
-    ), 
-    dillers as (
-        select П from Поставщики_s
-    ), 
     cross_joined as (
-        select * from details cross join dillers
+        select Детали_p.Д, Поставщики_s.П from Детали_p cross join Поставщики_s
     ),
-    tmp as (
+    not_aim_pairs as (
         select distinct d_count.П, d_count.Д
             from Количество_Деталей d_count
         order by d_count.П, d_count.Д
     )
 
 select П, Д from cross_joined
-except select П, Д from tmp
+except select П, Д from not_aim_pairs
 order by П, Д
 
 /* 5. Получить все сочетания "цвета деталей-города деталей". */
