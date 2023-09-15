@@ -14,6 +14,7 @@ bool brute(const std::string& text, const std::string& pass, const std::string& 
             break;
         }
     }
+    return false;
 }
 
 
