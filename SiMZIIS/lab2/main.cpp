@@ -13,7 +13,14 @@ int findKey(std::string encodedPassword, std::string password) {
 
 
 int main(){
-    std::string password = "testPass";
-    std::string encodedPassword = "testPasd";
-    findKey(encodedPassword, password);
+    std::string password, encodedPassword;
+    int key;
+
+    std::cout << "Enter password: "; std::cin >> password;
+    std::cout << "Enter key: "; std::cin >> key;
+
+    encodedPassword = Caesar::encode(key, password);
+
+    std::cout << "Encoded password: " << encodedPassword << std::endl;
+    std::cout << "Key: " << findKey(encodedPassword, password) << std::endl;
 }

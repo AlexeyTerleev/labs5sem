@@ -1,4 +1,5 @@
 #include "Caesar.h"
+#include "iostream"
 
 
 std::string Caesar::encode(int key, std::string password) {
@@ -9,7 +10,7 @@ std::string Caesar::decode(int key, std::string encodedPassword) {
     return Caesar(key).decode(encodedPassword);
 }
 
-Caesar::Caesar(int key): alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"), key(key) { };
+Caesar::Caesar(int key): alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"), key(key) { };
 
 Caesar::Caesar(int key, std::string alphabet) : key(key), alphabet(alphabet) { }
 
@@ -38,5 +39,5 @@ int Caesar::getIndexOfAlphabet(char ch) {
         if (alphabet.at(i) == ch)
             return i;
     }
-    throw "Element not found";
+    throw std::invalid_argument("Element not found");
 };
