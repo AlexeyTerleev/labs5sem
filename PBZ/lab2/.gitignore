@@ -1,0 +1,4 @@
+app/venv
+app/exhibitions/exhibitions/.env
+*__pycache__*
+design
