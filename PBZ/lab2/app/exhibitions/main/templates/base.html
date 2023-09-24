@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <title>{% block title %}Выставочные залы города{% endblock title %}</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <nav class="menu">
+        <h2>Выставочные залы города</h2>
+        <ul>
+            <li><a href="/">Программы</a></li>
+            <li><a href="/test">Выставочные залы</a></li>
+            <li><a href="#">Список выставок</a></li>
+        </ul>
+    </nav>
+
+    <div>{% block content %}{% endblock content %}</div>
+
+</body>
+</html>
