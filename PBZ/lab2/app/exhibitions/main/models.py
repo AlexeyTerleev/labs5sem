@@ -1,14 +1,13 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-# Create your models here.
+from datetime import datetime
 
 
 class Artists(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField()
     birth_place = models.CharField()
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True)
     info = models.CharField()
     education = models.CharField()
 
@@ -43,8 +42,9 @@ class Exhibitions(models.Model):
         SCULPTURE = 'SC', _('Sculpture')
 
     id = models.AutoField(primary_key=True)
+    name = models.CharField()
     type = models.CharField(max_length=2, choices=ExhibitionType.choices,default=ExhibitionType.ART)
-    
+    date = models.DateField(null=True)
     exhibition_hall_id = models.ForeignKey(ExhibitionHalls, on_delete=models.CASCADE)
 
 
@@ -56,7 +56,7 @@ class Exhibits(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField()
-    date = models.DateField()
+    date = models.DateField(null=True)
     size = models.CharField()
     type = models.CharField(max_length=2, choices=ExhibitType.choices,default=ExhibitType.PAINTING)
 

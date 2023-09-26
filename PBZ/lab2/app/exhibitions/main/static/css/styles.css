@@ -1,13 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Lora);
-h2 {
+#pageHeader h2 {
   font-family: monospace;
   color: #606060;
 }
-ul {
+#mainNav ul {
   list-style: none; 
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
 }
-a {
+#mainNav a {
   text-decoration: none;
   font-family: 'Lora', serif;
   transition: .5s linear;
@@ -18,7 +19,7 @@ body {
   display: grid;
   grid-template-areas: 
     "header header"
-    "nav article"
+    "nav content"
     "footer footer";
   grid-template-rows: 60px 1fr 60px;
   grid-template-columns: 15% 1fr;
@@ -27,7 +28,6 @@ body {
   margin: 0;
   }
 header, footer, article, nav, div {
-  padding: 20px;
   background: #ebcece;
 }
 #pageHeader {
@@ -37,9 +37,29 @@ header, footer, article, nav, div {
 #pageFooter {
   grid-area: footer;
 }
-#mainArticle { 
-  grid-area: article;      
+#mainContent { 
+  grid-area: content;      
 }
 #mainNav { 
   grid-area: nav; 
+}
+
+#test-form {
+  height: 10%;
+}
+#test-table {
+  height: 90%;
+  background-color: bisque;
+}
+#test-table table {
+  background-color: aqua;
+  width: 100%;
+}
+#test-table tr {
+  background-color: bisque;
+  padding: 10px;
+  line-height: 200%;
+}
+#test-table td {
+  text-align: center;
 }

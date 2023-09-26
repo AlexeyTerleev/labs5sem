@@ -1,10 +1,8 @@
 from django import forms
+from .models import Exhibitions
 
 
 class ExebitionForm(forms.Form):
     exebition = forms.ChoiceField(
-        choices = (
-            (1, "test1"), 
-            (2, "test2"),
-        )
+        choices = tuple((exhibition.id, exhibition.name) for exhibition in Exhibitions.objects.all())
     )
