@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Exhibits
-from .forms import ExebitionForm
+from .models import Exhibits, ExhibitionHalls
+from .forms import ExebitionForm, CityForm
 from datetime import date
 
 # Create your views here.
@@ -10,9 +10,8 @@ def index(request):
     
     filter_id = request.POST.get("exebition") if request.method == "POST" else 1
     exebition_form = ExebitionForm(initial={"exebition": filter_id})
-    
+
     exhibits = Exhibits.objects.filter(exhibition_id=filter_id).select_related("artist_id")
-    print(filter_id)
     data = []
     for exhibit in exhibits:
         artist_birth_date = exhibit.artist_id.birth_date
@@ -28,3 +27,21 @@ def index(request):
     return render(request, "index.html", context={"form": exebition_form, "data": data})
     
     
+def exhibition_halls(request):
+    city_name = request.POST.get("city") if request.method == "POST" else "Минск"
+    city_form = CityForm(initial={"city": city_name})
+
+    exhibition_halls = ExhibitionHalls.objects.filter(adress__icontains=city_name)
+    data = []
+    for exhibition_hall in exhibition_halls:
+        data.append(
+            {
+                "date": None,
+                "name": exhibition_hall.name,
+                "address": exhibition_hall.adress,
+                "space": exhibition_hall.space,
+                "owner": exhibition_hall.owner_id,
+            }
+        )
+
+    return render(request, "test.html", context={"form": city_form, "data": data})

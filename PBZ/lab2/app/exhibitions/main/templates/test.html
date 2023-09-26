@@ -1,6 +1,33 @@
 {% extends "base.html" %}
-{% block title %}Test{% endblock title %}
+{% block title %}Выставочные залы{% endblock title %}
+{% block header %}Выставочные залы{% endblock header %}
   
 {% block content %}
-<p>test</p>
+<div id="test-form">
+    <form method="POST">
+        {% csrf_token %}
+        Город: {{form.city}}
+        <input type="submit" value="Send" >
+    </form>
+</div>
+<div id="test-table">
+    <table>
+        <tr>
+          <th>Дата</th>
+          <th>Название</th>
+          <th>Адрес</th>
+          <th>Занимаемая площадь</th>
+          <th>Владелец</th>
+        </tr>
+        {% for line in data %}
+        <tr>
+            <td>{{line.date}}</td>
+            <td>{{line.name}}</td>
+            <td>{{line.address}}</td>
+            <td>{{line.space}}</td>
+            <td>{{line.owner}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+</div>
 {% endblock content %}
