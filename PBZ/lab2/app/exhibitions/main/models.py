@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Artists(models.Model):
-    id = models.IntegerField(auto_created=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField()
     birth_place = models.CharField()
     birth_date = models.DateField()
@@ -20,7 +20,7 @@ class Owners(models.Model):
         PUBLIC = 'PU', _('Public organization')
         PRIVATE = 'PR', _('Private organization')
 
-    id = models.IntegerField(auto_created=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField()
     adress = models.CharField()
     phone = models.CharField()
@@ -28,7 +28,7 @@ class Owners(models.Model):
 
 
 class ExhibitionHalls(models.Model):
-    id = models.IntegerField(auto_created=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField()
     adress = models.CharField()
     phone = models.CharField()
@@ -42,7 +42,7 @@ class Exhibitions(models.Model):
         APPLIED = 'AP', _('Applied')
         SCULPTURE = 'SC', _('Sculpture')
 
-    id = models.IntegerField(auto_created=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
     type = models.CharField(max_length=2, choices=ExhibitionType.choices,default=ExhibitionType.ART)
     
     exhibition_hall_id = models.ForeignKey(ExhibitionHalls, on_delete=models.CASCADE)
@@ -54,7 +54,7 @@ class Exhibits(models.Model):
         SCULPTURE = 'SC', _('Sculpture')
         ARCHITRCTURE = 'AR', _('Architecture')
 
-    id = models.IntegerField(auto_created=True, primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField()
     date = models.DateField()
     size = models.CharField()

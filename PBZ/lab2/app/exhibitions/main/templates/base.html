@@ -9,16 +9,25 @@
 </head>
 <body>
 
-    <nav class="menu">
+    <!-- <nav class="menu">
         <h2>Выставочные залы города</h2>
         <ul>
             <li><a href="/">Программы</a></li>
             <li><a href="/test">Выставочные залы</a></li>
             <li><a href="#">Список выставок</a></li>
         </ul>
-    </nav>
+    </nav> -->
 
-    <div>{% block content %}{% endblock content %}</div>
+    <header id="pageHeader"><h2>{% block header %}Header{% endblock header %}</h2></header>
+    <nav id="mainNav">
+        <ul>
+            <li><a href="/">Программы</a></li>
+            <li><a href="/test">Выставочные залы</a></li>
+            <li><a href="#">Список выставок</a></li>
+        </ul>
+    </nav>
+    <article id="mainArticle">{% block content %}Content{% endblock content %}</article>
+    <footer id="pageFooter">Footer</footer>
 
 </body>
 </html>

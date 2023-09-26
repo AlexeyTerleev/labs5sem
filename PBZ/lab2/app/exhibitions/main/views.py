@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Exhibits
 from .forms import ExebitionForm
 
 # Create your views here.
@@ -6,4 +7,5 @@ from .forms import ExebitionForm
 
 def index(request):
     exebition_form = ExebitionForm()
-    return render(request, "index.html", {"form": exebition_form})
+    exhibits = Exhibits.objects.all()
+    return render(request, "index.html", {"form": exebition_form, "exhibits": exhibits})

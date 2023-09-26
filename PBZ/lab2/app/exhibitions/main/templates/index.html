@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Программы{% endblock title %}
+{% block header %}Программы{% endblock header %}
   
 {% block content %}
 <p>{{form}}</p>
+
+<p>
+    {% for exhibit in exhibits %}
+    Id:{{exhibit.id}}
+    Name:{{exhibit.name}}
+    Date:{{exhibit.date}}
+    Size:{{exhibit.size}}
+    Type:{{exhibit.type}}
+    Artist:{{exhibit.artist_id}}
+    Exhibition:{{exhibit.exhibition_id}}
+    {% endfor %}
+</p>
 {% endblock content %}
