@@ -27,4 +27,6 @@ urlpatterns = [
     path("", views.index),
 
     path("test/", views.exhibition_halls),
+
+    path("exhibitions/", views.exhibitions)
 ]

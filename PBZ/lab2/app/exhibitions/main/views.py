@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Exhibits, ExhibitionHalls
+from .models import Exhibits, ExhibitionHalls, Exhibitions
 from .forms import ExebitionForm, CityForm
 from datetime import date
 
@@ -31,7 +31,7 @@ def exhibition_halls(request):
     city_name = request.POST.get("city") if request.method == "POST" else "Минск"
     city_form = CityForm(initial={"city": city_name})
 
-    exhibition_halls = ExhibitionHalls.objects.filter(adress__icontains=city_name)
+    exhibition_halls = ExhibitionHalls.objects.select_related().filter(adress__icontains=city_name)
     data = []
     for exhibition_hall in exhibition_halls:
         data.append(
@@ -40,8 +40,26 @@ def exhibition_halls(request):
                 "name": exhibition_hall.name,
                 "address": exhibition_hall.adress,
                 "space": exhibition_hall.space,
-                "owner": exhibition_hall.owner_id,
+                "owner": exhibition_hall.owner_id.name,
             }
         )
 
     return render(request, "test.html", context={"form": city_form, "data": data})
+
+
+def exhibitions(request):
+    city_name = request.POST.get("city") if request.method == "POST" else "Минск"
+    city_form = CityForm(initial={"city": city_name})
+
+    exhibitions = Exhibitions.objects.select_related().filter(exhibition_hall_id_id__adress__icontains=city_name)
+    data = []
+    for exhibition in exhibitions:
+        data.append(
+            {
+                "date": exhibition.date,
+                "name": exhibition.name,
+                "hall_address": exhibition.exhibition_hall_id.adress,
+            }
+        )
+
+    return render(request, "exhibitions.html", context={"form": city_form, "data": data})
