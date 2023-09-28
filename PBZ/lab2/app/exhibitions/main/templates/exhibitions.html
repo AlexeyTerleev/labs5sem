@@ -3,14 +3,14 @@
 {% block header %}Выставочные залы{% endblock header %}
   
 {% block content %}
-<div id="test-form">
+<div id="mainContentForm">
     <form method="POST">
         {% csrf_token %}
         Город: {{form.city}}
         <input type="submit" value="Send" >
     </form>
 </div>
-<div id="test-table">
+<div id="mainContentTable">
     <table>
         <tr>
           <th>Дата</th>

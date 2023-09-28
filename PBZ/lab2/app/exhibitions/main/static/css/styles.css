@@ -1,22 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Lora);
-#pageHeader h2 {
-  font-family: monospace;
-  color: #606060;
-}
-#mainNav ul {
-  list-style: none; 
-  margin: 0;
-  padding: 0;
-}
-#mainNav a {
-  text-decoration: none;
-  font-family: 'Lora', serif;
-  transition: .5s linear;
+#pageHeader div {
+  font-family: 'Lora', 'Arial', serif;
+  font-size: 24px;
+  color: #3a547f;
 }
 
 
 body { 
   display: grid;
+  background: #e9edf3;
   grid-template-areas: 
     "header header"
     "nav content"
@@ -26,13 +18,22 @@ body {
   grid-gap: 10px;
   height: 100vh;
   margin: 0;
-  }
-header, footer, article, nav, div {
-  background: #ebcece;
+}
+header{
+  background: #ffffff;
+  -webkit-box-shadow: 0px -1px 20px -7px rgba(34, 60, 80, 0.69);
+  -moz-box-shadow: 0px -1px 20px -7px rgba(34, 60, 80, 0.69);
+  box-shadow: 0px -1px 20px -7px rgba(34, 60, 80, 0.69);
+}
+article, nav {
+  background: #e9edf3;
+}
+footer {
+  background: #e5e5e5;
 }
 #pageHeader {
   grid-area: header;
-  padding-top:0;
+  padding: 12px;
 }
 #pageFooter {
   grid-area: footer;
@@ -40,26 +41,78 @@ header, footer, article, nav, div {
 #mainContent { 
   grid-area: content;      
 }
+
 #mainNav { 
   grid-area: nav; 
 }
+#mainNav ul{ 
+  list-style: none; 
+  background: #ffffff;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 0;
+}
+#mainNav li{ 
+  padding: 10px;
+}
+#mainNav li:hover{ 
+  background: #f5f6f8;
+}
+#mainNav a {
+  text-decoration: none;
+  font-family: 'Lora', 'Arial', serif;
+  transition: .5s linear;
+  color: #000;
+}
 
-#test-form {
-  height: 10%;
+#mainContent {
+  background: #e9edf3;
 }
-#test-table {
-  height: 90%;
-  background-color: bisque;
+
+#mainContent .wrapper{
+  background: #ffffff;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
 }
-#test-table table {
-  background-color: aqua;
+
+#mainContentForm {
+  height: auto;
+  padding: 10px;
+}
+
+#mainContentTable {
+  height: auto;
+  padding: 0;
+  margin: 10px;
+}
+#mainContentTable table {
   width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 10px;
+  border: 1px solid black;
 }
-#test-table tr {
-  background-color: bisque;
+#mainContentTable tr {
   padding: 10px;
   line-height: 200%;
 }
-#test-table td {
+
+#mainContentTable th {
+  background-color: #e5e5e5;
+  font-family: 'Lora', 'Arial', serif;
+  font-weight: normal;
+  text-align: center;
+}
+th:first-child {
+  border-top-left-radius: 10px; 
+}
+th:last-child {
+  border-top-right-radius: 10px; 
+}
+
+#mainContentTable td {
+  font-family: 'Lora', 'Arial', serif;
+  font-weight: normal;
   text-align: center;
 }

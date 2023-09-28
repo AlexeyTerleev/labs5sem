@@ -3,14 +3,14 @@
 {% block header %}Программы{% endblock header %}
   
 {% block content %}
-<div id="test-form">
+<div id="mainContentForm">
   <form method="POST">
     {% csrf_token %}
     Выставка: {{form.exebition}}
   <input type="submit" value="Send" >
   </form>
 </div>
-<div id="test-table">
+<div id="mainContentTable">
     <table>
         <tr>
           <th>Название</th>
