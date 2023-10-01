@@ -31,7 +31,7 @@ def conclusion(set, relation):
         conl_set[i] = value
     return conl_set
 
-with open("file.txt", "r") as file : 
+with open("data", "r") as file : 
     lst = []
     for line in file:
         lst.append(json.loads(line))
