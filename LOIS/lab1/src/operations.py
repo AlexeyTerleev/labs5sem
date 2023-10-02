@@ -37,3 +37,7 @@ def difference(set1, set2):
 
 def sim_diff(set1, set2):
     return conjunction(disjunction(set1, set2), disjunction(set2, set1))
+
+
+def neg(set1):
+    return {x: 1 - y for x, y in set1}
