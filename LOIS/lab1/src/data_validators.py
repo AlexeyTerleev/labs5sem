@@ -1,5 +1,9 @@
 import re
 
+def remove_variables(head: str):
+    name = head.split("(")[0]
+    num_of_comma = head.count(",")
+    return f"{name}({',' * num_of_comma})"
 
 class Fact:
 
@@ -12,11 +16,11 @@ class Fact:
         if not self.__is_valid():
             raise Fact.InvalidFactExeption(fact)
         self.head = self.__get_head()
+        self.head_without_variables = remove_variables(self.head)
         self.tail = self.__get_tail()
         if not self.__tail_is_valid():
             raise Fact.InvalidFactExeption(fact)
-        if self.tail is not None:
-            self.tail = {pair[0]: pair[1] for pair in self.tail}
+        self.tail = {pair[0]: pair[1] for pair in self.tail}
 
     def __is_valid(self):
         # p(x)={(a,0),(b,0.3),(c,1)}
@@ -31,16 +35,10 @@ class Fact:
         head_tail_pattern = r"^(.+)={(.*)}$"
         pairs_str = re.match(head_tail_pattern, self.fact).group(2)
         pairs = [tuple(pair.split(",")) for pair in pairs_str[1:-1].split("),(")]
-        if len(pairs[0]) == 1:
-            return None
-        else:
-            return tuple(map(lambda x: (x[0], float(x[1])), pairs))  
+        return tuple() if len(pairs[0]) == 1 else tuple(map(lambda x: (x[0], float(x[1])), pairs))  
     
     def __tail_is_valid(self):
-        if self.tail is None:
-            return True
-        else:
-            return len(set(map(lambda x: x[0], self.tail))) == len(list(map(lambda x: x[0], self.tail)))
+        return len(set(map(lambda x: x[0], self.tail))) == len(list(map(lambda x: x[0], self.tail)))
 
 
 class Function:
@@ -54,7 +52,9 @@ class Function:
         if not self.__is_valid():
             raise Function.InvalidFunctionExeption(func)
         self.head = self.__get_head()
+        self.head_without_variables = remove_variables(self.head)
         self.tail = self.__get_tail()
+        self.tail_without_variables = tuple(remove_variables(x) for x in self.tail)
 
     def __is_valid(self):
         # f(x, y) = (p(x) ~> v(x))
@@ -82,6 +82,7 @@ class Aim:
         if not self.__is_valid():
             raise Aim.InvalidAimExeption(aim)
         self.pair = self.__get_pair()
+        self.pair_without_variables = tuple(remove_variables(x) for x in self.pair)
 
     def __is_valid(self): 
         # {p(x), f(x, y)}

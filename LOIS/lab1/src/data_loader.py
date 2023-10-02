@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple
+from typing import List
 
 from .data_validators import *
 
@@ -11,16 +11,14 @@ def load_from_file(path):
     facts = [Fact(fact) for fact in facts]
     functions = [Function(function) for function in functions]
     aims = [Aim(aim) for aim in aims]
-    return get_facts_dict(facts), get_functions_dict(functions), get_aims_tuple(aims)
+    return get_facts_dict(facts), get_functions_dict(functions), tuple(aims)
 
 
 def get_facts_dict(facts: List[Fact]):
-    return {fact.head: fact.tail for fact in facts}
+    return {fact.head_without_variables: fact for fact in facts}
 
 def get_functions_dict(functions: List[Function]):
-    return {func.head: func.tail for func in functions}
+    return {func.head_without_variables: func for func in functions}
 
-def get_aims_tuple(aims: List[Aim]):
-    return tuple(aim.pair for aim in aims)
 
     
