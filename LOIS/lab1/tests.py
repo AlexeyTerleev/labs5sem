@@ -9,4 +9,6 @@ assert(difference({"x": 0.1, "y": 1, "z": 0, "f": 0.4}, {"x": 0.5, "y": 0, "z": 
     
 data = load_from_file("data")
 
-print(data)
+for row in data:
+    print(row)
+    print()

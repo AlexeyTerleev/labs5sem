@@ -1,13 +1,5 @@
 import re
 
-class InvalidFunctionExeption(Exception):
-    def __init__(self, func: str) -> None:
-        super().__init__(f"Invalid format of function: {func}")
-
-class InvalidAimExeption(Exception):
-    def __init__(self, aim: str) -> None:
-        super().__init__(f"Invalid format of aim: {aim}")
-
 
 class Fact:
 
@@ -23,6 +15,8 @@ class Fact:
         self.tail = self.__get_tail()
         if not self.__tail_is_valid():
             raise Fact.InvalidFactExeption(fact)
+        if self.tail is not None:
+            self.tail = {pair[0]: pair[1] for pair in self.tail}
 
     def __is_valid(self):
         # p(x)={(a,0),(b,0.3),(c,1)}
@@ -48,10 +42,54 @@ class Fact:
         else:
             return len(set(map(lambda x: x[0], self.tail))) == len(list(map(lambda x: x[0], self.tail)))
 
-    
-def function_is_valid(function) -> bool:
-    return True
 
-def aim_is_valid(aim) -> bool:
-    return True
+class Function:
+
+    class InvalidFunctionExeption(Exception):
+        def __init__(self, func: str) -> None:
+            super().__init__(f"Invalid format of function: {func}")
+
+    def __init__(self, func: str) -> None:
+        self.func = func
+        if not self.__is_valid():
+            raise Function.InvalidFunctionExeption(func)
+        self.head = self.__get_head()
+        self.tail = self.__get_tail()
+
+    def __is_valid(self):
+        # f(x, y) = (p(x) ~> v(x))
+        pattern = re.compile(r"^[a-z]\(([a-z],)*[a-z]\)=\([a-z]\([a-z]\)~>[a-z]\([a-z]\)\)$")
+        return bool(pattern.match(self.func))
+    
+    def __get_head(self):
+        head_tail_pattern = r"^(.+)=(.*)$"
+        return re.match(head_tail_pattern, self.func).group(1)
+
+    def __get_tail(self):
+        head_tail_pattern = r"^(.+)=(.*)$"
+        pairs_str = re.match(head_tail_pattern, self.func).group(2)
+        return tuple(pairs_str[1:-1].split("~>"))
+
+
+class Aim:
+
+    class InvalidAimExeption(Exception):
+        def __init__(self, aim: str) -> None:
+            super().__init__(f"Invalid format of aim: {aim}")
+
+    def __init__(self, aim: str) -> None:
+        self.aim = aim
+        if not self.__is_valid():
+            raise Aim.InvalidAimExeption(aim)
+        self.pair = self.__get_pair()
+
+    def __is_valid(self): 
+        # {p(x), f(x, y)}
+        pattern = re.compile(r"^{[a-z]\(([a-z],)*([a-z])\),[a-z]\(([a-z],)*([a-z])\)}$")
+        return bool(pattern.match(self.aim))
+    
+    def __get_pair(self):
+        pattern = r"^{([a-z]\([a-z,]+\)),([a-z]\([a-z,]+\))}$"
+        return re.match(pattern, self.aim).groups()
+
 
