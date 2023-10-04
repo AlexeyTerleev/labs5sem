@@ -69,28 +69,3 @@ class Function:
         head_tail_pattern = r"^(.+)=(.*)$"
         pairs_str = re.match(head_tail_pattern, self.func).group(2)
         return tuple(pairs_str[1:-1].split("~>"))
-
-
-class Aim:
-
-    class InvalidAimExeption(Exception):
-        def __init__(self, aim: str) -> None:
-            super().__init__(f"Invalid format of aim: {aim}")
-
-    def __init__(self, aim: str) -> None:
-        self.aim = aim
-        if not self.__is_valid():
-            raise Aim.InvalidAimExeption(aim)
-        self.pair = self.__get_pair()
-        self.pair_without_variables = tuple(remove_variables(x) for x in self.pair)
-
-    def __is_valid(self): 
-        # {p(x), f(x, y)}
-        pattern = re.compile(r"^{[a-z]\(([a-z],)*([a-z])\),[a-z]\(([a-z],)*([a-z])\)}$")
-        return bool(pattern.match(self.aim))
-    
-    def __get_pair(self):
-        pattern = r"^{([a-z]\([a-z,]+\)),([a-z]\([a-z,]+\))}$"
-        return re.match(pattern, self.aim).groups()
-
-

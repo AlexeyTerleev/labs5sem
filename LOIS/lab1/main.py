@@ -14,7 +14,7 @@ from src.utils import print_table
 
 
 def main():
-    facts, functions, aims = load_from_file("data")
+    facts, functions = load_from_file("data")
 
     function_tables, function_tables_titles = {}, []
     for function_head, function_obj in functions.items():
@@ -27,10 +27,15 @@ def main():
         print_table(table_title, table_tail)
 
     result = []
-    for aim in aims:
-        test = operations.built_impl_table(facts[aim.pair_without_variables[0]].tail, function_tables[aim.pair_without_variables[1]])
-        print_table(f"{aim.pair[1]}/~\{aim.pair[0]}", test)
-        result.append(operations.compress(test))
+
+    for table_title, function_table in zip(function_tables_titles, function_tables.values()):
+        for fact in facts.values():
+            try:
+                tmp = operations.built_impl_table(fact.tail, function_table)
+                print_table(f"{table_title}/~\{fact.head}", tmp)
+                result.append(operations.compress(tmp))
+            except ValueError:
+                ...
     
     result_str = [", ".join(f"({pair[0]}, {pair[1]})" for pair in conclusion_set.items()) for conclusion_set in result]
     print("Ответ: {", "}, {".join(result_str), "}.", sep ="")
@@ -38,3 +43,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Вывод всех возможных формул
+# Отчет (проверить нормализованный и ненормализованный ввод (пары до и после импликации))
