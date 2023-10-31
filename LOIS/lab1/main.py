@@ -9,7 +9,8 @@
 
 
 from src import operations
-from src.data_loader import load_from_file
+from src.data_loader import load_from_file, get_facts_dict
+from src.data_validators import Fact
 from src.utils import print_table
 
 import os
@@ -45,22 +46,36 @@ def main(dir: str):
         for table_title, table_tail in zip(function_tables_titles, function_tables.values()):
             print_table(table_title, table_tail)
 
-        result = []
+        while True:
+            result_sets = []
 
-        for table_title, function_table in zip(function_tables_titles, function_tables.values()):
-            for fact in facts.values():
-                try:
-                    tmp = operations.built_impl_table(fact.tail, function_table)
-                    print_table(f"{table_title}/~\{fact.head}", tmp)
-                    result.append(operations.compress(tmp))
-                except ValueError:
-                    ...
-        
-        result_str = [", ".join(f"({pair[0]}, {pair[1]})" for pair in conclusion_set.items()) for conclusion_set in result]
-        print()
-        
-        print("Answear: {", "}, {".join(result_str), "}.", sep ="")
-        print()
+            for table_title, function_table in zip(function_tables_titles, function_tables.values()):
+                for fact in facts.values():
+                    try:
+                        
+                        result_impl_table = operations.built_impl_table(fact.tail, function_table)
+
+                        result_set_head = f"{table_title}/~\{fact.head}"
+                        result_set_tail = operations.compress(result_impl_table)
+
+                        print_table(result_set_head, result_impl_table)
+
+                        result_sets.append("{" + ", ".join(f"({pair[0]}, {pair[1]})" for pair in result_set_tail.items()) + "}")
+                        
+                        
+                    except ValueError:
+                        ...
+            print("Answear: ")
+            facts = []
+            for i, tail in enumerate(result_sets):
+                name = f"{chr(97 + i)}(x)"
+                print(f"{name} = {tail}")
+                facts.append(f"{name}={tail.replace(' ', '')}")
+
+            print()
+            input()
+            facts = get_facts_dict([Fact(fact) for fact in facts])
+
 
 
 if __name__ == "__main__":

@@ -11,9 +11,9 @@ class Fact:
         def __init__(self, fact: str) -> None:
             super().__init__(f"Invalid format of fact: {fact}")
 
-    def __init__(self, fact: str) -> None:
+    def __init__(self, fact: str, valid_check=True) -> None:
         self.fact = fact
-        if not self.__is_valid():
+        if valid_check and not self.__is_valid():
             raise Fact.InvalidFactExeption(fact)
         self.head = self.__get_head()
         self.head_without_variables = remove_variables(self.head)
