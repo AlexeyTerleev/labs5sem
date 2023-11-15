@@ -25,7 +25,7 @@ def get_data_exhibit(exhibit):
 
 def get_data_exhibition_hall(exhibition_hall):
     return {
-        "date": None,
+        "date": exhibition_hall.date,
         "name": exhibition_hall.name,
         "address": exhibition_hall.adress,
         "space": exhibition_hall.space,
@@ -45,7 +45,10 @@ def exhibits(request):
     filter_name, default_value = "exebition", 1
     filter = get_filter(request, filter_name, default_value)
     form = ExebitionForm(initial={filter_name: filter})
-    rows = Exhibits.objects.filter(exhibition_id=filter).select_related("artist_id")
+
+    rows = Exhibits.objects.prefetch_related().filter(exhibitions__id=filter).select_related("artist_id")
+    print(rows.query.__str__())
+    print("test")
     data = [get_data_exhibit(row) for row in rows]
     return render(request, "exhibits.html", context={"form": form, "data": data})
     
@@ -56,6 +59,7 @@ def exhibition_halls(request):
     form = CityForm(initial={filter_name: filter})
     rows = ExhibitionHalls.objects.select_related().filter(adress__icontains=filter)
     data = [get_data_exhibition_hall(row) for row in rows]
+   
     return render(request, "exhibition_halls.html", context={"form": form, "data": data})
 
 

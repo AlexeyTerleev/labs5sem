@@ -32,6 +32,7 @@ class ExhibitionHalls(models.Model):
     adress = models.CharField()
     phone = models.CharField()
     space = models.CharField()
+    date = models.DateField(null=True)
     owner_id = models.ForeignKey(Owners, null=True, on_delete=models.SET_NULL)
 
 
@@ -60,7 +61,7 @@ class Exhibits(models.Model):
     size = models.CharField()
     type = models.CharField(max_length=2, choices=ExhibitType.choices,default=ExhibitType.PAINTING)
 
-    exhibition_id = models.ForeignKey(Exhibitions, on_delete=models.CASCADE)
+    exhibitions = models.ManyToManyField(Exhibitions)
     artist_id = models.ForeignKey(Artists, null=True, on_delete=models.SET_NULL)
     
 
