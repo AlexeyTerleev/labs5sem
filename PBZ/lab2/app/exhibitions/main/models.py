@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 
 
-class Artists(models.Model):
+class Artist(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField()
     birth_place = models.CharField()
@@ -11,8 +11,11 @@ class Artists(models.Model):
     info = models.CharField()
     education = models.CharField()
 
+    def __str__(self):
+        return self.name
 
-class Owners(models.Model):
+
+class Owner(models.Model):
     class OwnerType(models.TextChoices):
         CITY = 'CI', _('City organization')
         REGIONAL = 'RE', _('Regional organization')
@@ -25,18 +28,23 @@ class Owners(models.Model):
     phone = models.CharField()
     type = models.CharField(max_length=2, choices=OwnerType.choices, default=OwnerType.PUBLIC)
 
+    def __str__(self):
+        return self.name
 
-class ExhibitionHalls(models.Model):
+class ExhibitionHall(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField()
     adress = models.CharField()
     phone = models.CharField()
     space = models.CharField()
     date = models.DateField(null=True)
-    owner_id = models.ForeignKey(Owners, null=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(Owner, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
 
 
-class Exhibitions(models.Model):
+class Exhibition(models.Model):
     class ExhibitionType(models.TextChoices):
         ART = 'AR', _('Art')
         APPLIED = 'AP', _('Applied')
@@ -45,11 +53,15 @@ class Exhibitions(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField()
     type = models.CharField(max_length=2, choices=ExhibitionType.choices,default=ExhibitionType.ART)
-    date = models.DateField(null=True)
-    exhibition_hall_id = models.ForeignKey(ExhibitionHalls, on_delete=models.CASCADE)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    exhibition_hall = models.ForeignKey(ExhibitionHall, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
-class Exhibits(models.Model):
+class Exhibit(models.Model):
     class ExhibitType(models.TextChoices):
         PAINTING = 'PA', _('Painting') 
         SCULPTURE = 'SC', _('Sculpture')
@@ -61,8 +73,11 @@ class Exhibits(models.Model):
     size = models.CharField()
     type = models.CharField(max_length=2, choices=ExhibitType.choices,default=ExhibitType.PAINTING)
 
-    exhibitions = models.ManyToManyField(Exhibitions)
-    artist_id = models.ForeignKey(Artists, null=True, on_delete=models.SET_NULL)
+    exhibitions = models.ManyToManyField(Exhibition)
+    artist = models.ForeignKey(Artist, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
     
 
     

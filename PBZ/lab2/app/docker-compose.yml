@@ -1,28 +1,28 @@
-version: "3"
+version: "3.9"
 
 services:
-  db:
-    image: postgres:12
-    ports:
-      - "5432:5432"
-    container_name: postrge_bpz_lab2
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres_db
+  app:
+    container_name: pbz-lab2-app
+    build:
+      context: .
+      network: host
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-
-  pgadmin:
-    container_name: pgadmin_pbz_lab2
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - ./exhibitions:/usr/src/exhibitions
     ports:
-      - "5050:80"
+      - "8000:8000"
     depends_on:
       - db
 
-volumes:
-  postgres_data:
+  db:
+    container_name: pbz-lab2-db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+
