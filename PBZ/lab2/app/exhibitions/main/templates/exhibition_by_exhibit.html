@@ -1,28 +1,28 @@
 {% extends "base.html" %}
-{% block title %}Выставочные залы{% endblock title %}
-{% block header %}Выставочные залы{% endblock header %}
+{% block title %}Экспонаты{% endblock title %}
+{% block header %}Экспонаты{% endblock header %}
   
 {% block content %}
 <div id="mainContentForm">
-    <form method="POST">
-        {% csrf_token %}
-        Город: {{form.city}}
-        <input type="submit" value="Send" >
-    </form>
+  <form method="POST">
+    {% csrf_token %}
+    Экспонат: {{form.exhibit}}
+  <input type="submit" value="Send" >
+  </form>
 </div>
 <div id="mainContentTable">
     <table>
         <tr>
+          <th>Название</th>
           <th>Дата начала</th>
           <th>Дата окончания</th>
-          <th>Название</th>
-          <th>Адрес зала</th>
+          <th>Адрес выставочного зала</th>
         </tr>
         {% for line in data %}
         <tr>
+            <td>{{line.name}}</td>
             <td>{{line.start_date}}</td>
             <td>{{line.end_date}}</td>
-            <td>{{line.name}}</td>
             <td>{{line.hall_address}}</td>
         </tr>
         {% endfor %}

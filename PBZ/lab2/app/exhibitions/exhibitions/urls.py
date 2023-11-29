@@ -11,5 +11,6 @@ urlpatterns = [
     path('', lambda request: redirect('exhibits/', permanent=False)),
     path("exhibits/", views.exhibits),
     path("exhibition_halls/", views.exhibition_halls),
-    path("exhibitions/", views.exhibitions)
+    path("exhibitions/", views.exhibitions),
+    path("exhibition_by_exhibit/", views.exhibition_by_exhibit)
 ]
